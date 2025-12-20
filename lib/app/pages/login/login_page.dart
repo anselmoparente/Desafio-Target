@@ -37,21 +37,17 @@ class LoginPage extends StatelessWidget {
                       textAlign: TextAlign.center,
                     ),
                     const SizedBox(height: AppSpacing.xl),
-                    Observer(
-                      builder: (_) => DSTextField(
-                        label: 'Email',
-                        onChanged: store.setEmail,
-                        errorText: store.emailError,
-                      ),
+                    DSTextField(
+                      label: 'Email',
+                      onChanged: store.setEmail,
+                      errorText: store.emailError,
                     ),
                     const SizedBox(height: AppSpacing.md),
-                    Observer(
-                      builder: (_) => DSTextField(
-                        label: 'Senha',
-                        obscureText: true,
-                        onChanged: store.setPassword,
-                        errorText: store.passwordError,
-                      ),
+                    DSTextField(
+                      label: 'Senha',
+                      obscureText: true,
+                      onChanged: store.setPassword,
+                      errorText: store.passwordError,
                     ),
                     const SizedBox(height: AppSpacing.lg),
                     DSButton(

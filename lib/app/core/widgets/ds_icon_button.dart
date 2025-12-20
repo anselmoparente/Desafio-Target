@@ -4,7 +4,7 @@ import '../theme/app_colors.dart';
 
 class DSIconButton extends StatelessWidget {
   final IconData icon;
-  final Future<void> Function()? onPressed;
+  final VoidCallback? onPressed;
   final Color? color;
   final String? tooltip;
 

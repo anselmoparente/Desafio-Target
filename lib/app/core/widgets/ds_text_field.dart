@@ -9,6 +9,8 @@ class DSTextField extends StatelessWidget {
   final bool obscureText;
   final ValueChanged<String> onChanged;
   final String? errorText;
+  final TextEditingController? controller;
+  final FocusNode? focusNode;
 
   const DSTextField({
     super.key,
@@ -16,11 +18,15 @@ class DSTextField extends StatelessWidget {
     this.obscureText = false,
     required this.onChanged,
     this.errorText,
+    this.controller,
+    this.focusNode,
   });
 
   @override
   Widget build(BuildContext context) {
     return TextField(
+      controller: controller,
+      focusNode: focusNode,
       obscureText: obscureText,
       style: AppTypography.body.copyWith(color: AppColors.textPrimary),
       decoration: InputDecoration(
