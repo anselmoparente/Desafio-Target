@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:target/app/core/theme/app_spacing.dart';
 import 'package:target/app/core/widgets/ds_app_bar.dart';
 import 'package:target/app/pages/details/widgets/details_card.dart';
+import 'package:target/app/pages/details/widgets/details_empty_state.dart';
 import 'package:target/app/pages/details/widgets/letters_numbers_chart.dart';
 import 'package:target/app/stores/notes_store.dart';
 
@@ -13,36 +14,43 @@ class DetailsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final store = context.watch<NotesStore>();
 
+    final isEmpty =
+        store.totalNotes == 0 &&
+        store.totalEdits == 0 &&
+        store.totalCharacters == 0;
+
     return Scaffold(
       appBar: const DSAppBar(title: 'Detalhes', showBackButton: true),
       body: Padding(
         padding: const EdgeInsets.all(AppSpacing.lg),
-        child: Column(
-          spacing: AppSpacing.lg,
-          children: [
-            Column(
-              spacing: AppSpacing.sm,
-              children: [
-                DetailsCard(
-                  label: 'Quantidade de linhas',
-                  value: store.totalNotes.toString(),
-                ),
-                DetailsCard(
-                  label: 'Quantidade de edições',
-                  value: store.totalEdits.toString(),
-                ),
-                DetailsCard(
-                  label: 'Caracteres',
-                  value: store.totalCharacters.toString(),
-                ),
-              ],
-            ),
-            LettersNumbersChart(
-              letters: store.totalLetters,
-              numbers: store.totalNumbers,
-            ),
-          ],
-        ),
+        child: isEmpty
+            ? DetailsEmptyState()
+            : Column(
+                spacing: AppSpacing.lg,
+                children: [
+                  Column(
+                    spacing: AppSpacing.sm,
+                    children: [
+                      DetailsCard(
+                        label: 'Quantidade de linhas',
+                        value: store.totalNotes.toString(),
+                      ),
+                      DetailsCard(
+                        label: 'Quantidade de edições',
+                        value: store.totalEdits.toString(),
+                      ),
+                      DetailsCard(
+                        label: 'Caracteres',
+                        value: store.totalCharacters.toString(),
+                      ),
+                    ],
+                  ),
+                  LettersNumbersChart(
+                    letters: store.totalLetters,
+                    numbers: store.totalNumbers,
+                  ),
+                ],
+              ),
       ),
     );
   }
