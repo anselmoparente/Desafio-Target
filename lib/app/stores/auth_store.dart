@@ -12,7 +12,26 @@ abstract class AuthStoreBase with Store {
   String password = '';
 
   @observable
+  bool submitted = false;
+
+  @observable
   bool isLoading = false;
+
+  @computed
+  String? get emailError {
+    if (!submitted) return null;
+    if (email.isEmpty) return 'Informe o email';
+    if (!email.contains('@')) return 'Email inválido';
+    return null;
+  }
+
+  @computed
+  String? get passwordError {
+    if (!submitted) return null;
+    if (password.isEmpty) return 'Informe a senha';
+    if (password.length < 8) return 'Senha muito curta';
+    return null;
+  }
 
   @computed
   bool get isFormValid => email.isNotEmpty && password.length >= 8;
@@ -26,6 +45,9 @@ abstract class AuthStoreBase with Store {
   void setPassword(String value) {
     password = value;
   }
+
+  @action
+  void submit() => submitted = true;
 
   @action
   Future<bool> login() async {

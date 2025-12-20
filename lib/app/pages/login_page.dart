@@ -37,29 +37,39 @@ class LoginPage extends StatelessWidget {
                       textAlign: TextAlign.center,
                     ),
                     const SizedBox(height: AppSpacing.xl),
-                    DSTextField(label: 'Email', onChanged: store.setEmail),
+                    Observer(
+                      builder: (_) => DSTextField(
+                        label: 'Email',
+                        onChanged: store.setEmail,
+                        errorText: store.emailError,
+                      ),
+                    ),
                     const SizedBox(height: AppSpacing.md),
-                    DSTextField(
-                      label: 'Senha',
-                      obscureText: true,
-                      onChanged: store.setPassword,
+                    Observer(
+                      builder: (_) => DSTextField(
+                        label: 'Senha',
+                        obscureText: true,
+                        onChanged: store.setPassword,
+                        errorText: store.passwordError,
+                      ),
                     ),
                     const SizedBox(height: AppSpacing.lg),
                     DSButton(
                       label: 'Entrar',
                       isLoading: store.isLoading,
-                      onPressed: store.isFormValid
-                          ? () async {
-                              final success = await store.login();
+                      onPressed: () async {
+                        store.submit();
 
-                              if (success && context.mounted) {
-                                Navigator.pushReplacementNamed(
-                                  context,
-                                  AppRoutes.home,
-                                );
-                              }
-                            }
-                          : null,
+                        if (!store.isFormValid) return;
+
+                        final success = await store.login();
+                        if (success && context.mounted) {
+                          Navigator.pushReplacementNamed(
+                            context,
+                            AppRoutes.home,
+                          );
+                        }
+                      },
                     ),
                   ],
                 );

@@ -9,6 +9,20 @@ part of 'auth_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic, no_leading_underscores_for_local_identifiers
 
 mixin _$AuthStore on AuthStoreBase, Store {
+  Computed<String?>? _$emailErrorComputed;
+
+  @override
+  String? get emailError => (_$emailErrorComputed ??= Computed<String?>(
+    () => super.emailError,
+    name: 'AuthStoreBase.emailError',
+  )).value;
+  Computed<String?>? _$passwordErrorComputed;
+
+  @override
+  String? get passwordError => (_$passwordErrorComputed ??= Computed<String?>(
+    () => super.passwordError,
+    name: 'AuthStoreBase.passwordError',
+  )).value;
   Computed<bool>? _$isFormValidComputed;
 
   @override
@@ -47,6 +61,24 @@ mixin _$AuthStore on AuthStoreBase, Store {
   set password(String value) {
     _$passwordAtom.reportWrite(value, super.password, () {
       super.password = value;
+    });
+  }
+
+  late final _$submittedAtom = Atom(
+    name: 'AuthStoreBase.submitted',
+    context: context,
+  );
+
+  @override
+  bool get submitted {
+    _$submittedAtom.reportRead();
+    return super.submitted;
+  }
+
+  @override
+  set submitted(bool value) {
+    _$submittedAtom.reportWrite(value, super.submitted, () {
+      super.submitted = value;
     });
   }
 
@@ -108,11 +140,26 @@ mixin _$AuthStore on AuthStoreBase, Store {
   }
 
   @override
+  void submit() {
+    final _$actionInfo = _$AuthStoreBaseActionController.startAction(
+      name: 'AuthStoreBase.submit',
+    );
+    try {
+      return super.submit();
+    } finally {
+      _$AuthStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 email: ${email},
 password: ${password},
+submitted: ${submitted},
 isLoading: ${isLoading},
+emailError: ${emailError},
+passwordError: ${passwordError},
 isFormValid: ${isFormValid}
     ''';
   }

@@ -8,12 +8,14 @@ class DSTextField extends StatelessWidget {
   final String label;
   final bool obscureText;
   final ValueChanged<String> onChanged;
+  final String? errorText;
 
   const DSTextField({
     super.key,
     required this.label,
     this.obscureText = false,
     required this.onChanged,
+    this.errorText,
   });
 
   @override
@@ -24,6 +26,8 @@ class DSTextField extends StatelessWidget {
       decoration: InputDecoration(
         labelText: label,
         labelStyle: AppTypography.body,
+        errorText: errorText,
+        errorStyle: AppTypography.body.copyWith(color: AppColors.error),
         filled: true,
         fillColor: AppColors.surface,
         contentPadding: const EdgeInsets.symmetric(
