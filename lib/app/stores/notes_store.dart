@@ -1,13 +1,21 @@
+import 'dart:convert';
 import 'package:mobx/mobx.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:target/app/models/note_model.dart';
 import 'package:uuid/uuid.dart';
-import '../models/note_model.dart';
 
 part 'notes_store.g.dart';
 
 class NotesStore = NotesStoreBase with _$NotesStore;
 
 abstract class NotesStoreBase with Store {
+  static const _storageKey = 'notes';
+
   final _uuid = const Uuid();
+
+  NotesStoreBase() {
+    _loadNotes();
+  }
 
   @observable
   String newNoteText = '';
@@ -46,6 +54,7 @@ abstract class NotesStoreBase with Store {
     notes.add(NoteModel(id: _uuid.v4(), value: newNoteText));
 
     newNoteText = '';
+    _saveNotes();
   }
 
   @action
@@ -53,12 +62,36 @@ abstract class NotesStoreBase with Store {
     if (newValue.trim().isEmpty) return;
 
     note.updateValue(newValue);
-
     notes = ObservableList.of(notes);
+    _saveNotes();
   }
 
   @action
-  void removeItem(NoteModel note) => notes.remove(note);
+  void removeItem(NoteModel note) {
+    notes.remove(note);
+    _saveNotes();
+  }
+
+  Future<void> _loadNotes() async {
+    final prefs = await SharedPreferences.getInstance();
+    final jsonString = prefs.getString(_storageKey);
+
+    if (jsonString == null) return;
+
+    final List decoded = jsonDecode(jsonString);
+
+    notes = ObservableList.of(
+      decoded.map((e) => NoteModel.fromMap(e)).toList(),
+    );
+  }
+
+  Future<void> _saveNotes() async {
+    final prefs = await SharedPreferences.getInstance();
+
+    final jsonString = jsonEncode(notes.map((e) => e.toMap()).toList());
+
+    await prefs.setString(_storageKey, jsonString);
+  }
 
   int _countLetters(String text) => RegExp(r'[a-zA-Z]').allMatches(text).length;
 

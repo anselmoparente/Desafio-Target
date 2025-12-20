@@ -81,7 +81,7 @@ class LettersNumbersChart extends StatelessWidget {
           backDrawRodData: BackgroundBarChartRodData(
             show: true,
             toY: 100,
-            color: AppColors.border.withOpacity(0.2),
+            color: AppColors.border.withValues(alpha: 0.2),
           ),
         ),
       ],
