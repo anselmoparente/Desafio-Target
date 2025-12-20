@@ -16,6 +16,41 @@ mixin _$NotesStore on NotesStoreBase, Store {
     () => super.canAddNote,
     name: 'NotesStoreBase.canAddNote',
   )).value;
+  Computed<int>? _$totalNotesComputed;
+
+  @override
+  int get totalNotes => (_$totalNotesComputed ??= Computed<int>(
+    () => super.totalNotes,
+    name: 'NotesStoreBase.totalNotes',
+  )).value;
+  Computed<int>? _$totalEditsComputed;
+
+  @override
+  int get totalEdits => (_$totalEditsComputed ??= Computed<int>(
+    () => super.totalEdits,
+    name: 'NotesStoreBase.totalEdits',
+  )).value;
+  Computed<int>? _$totalCharactersComputed;
+
+  @override
+  int get totalCharacters => (_$totalCharactersComputed ??= Computed<int>(
+    () => super.totalCharacters,
+    name: 'NotesStoreBase.totalCharacters',
+  )).value;
+  Computed<int>? _$totalLettersComputed;
+
+  @override
+  int get totalLetters => (_$totalLettersComputed ??= Computed<int>(
+    () => super.totalLetters,
+    name: 'NotesStoreBase.totalLetters',
+  )).value;
+  Computed<int>? _$totalNumbersComputed;
+
+  @override
+  int get totalNumbers => (_$totalNumbersComputed ??= Computed<int>(
+    () => super.totalNumbers,
+    name: 'NotesStoreBase.totalNumbers',
+  )).value;
 
   late final _$newNoteTextAtom = Atom(
     name: 'NotesStoreBase.newNoteText',
@@ -108,7 +143,12 @@ mixin _$NotesStore on NotesStoreBase, Store {
     return '''
 newNoteText: ${newNoteText},
 notes: ${notes},
-canAddNote: ${canAddNote}
+canAddNote: ${canAddNote},
+totalNotes: ${totalNotes},
+totalEdits: ${totalEdits},
+totalCharacters: ${totalCharacters},
+totalLetters: ${totalLetters},
+totalNumbers: ${totalNumbers}
     ''';
   }
 }

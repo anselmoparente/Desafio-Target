@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:provider/provider.dart';
 import 'package:target/app/core/routes/app_routes.dart';
 import 'package:target/app/core/theme/app_spacing.dart';
 import 'package:target/app/core/theme/app_typography.dart';
@@ -9,12 +10,12 @@ import 'package:target/app/core/widgets/ds_text_field.dart';
 import 'package:target/app/stores/auth_store.dart';
 
 class LoginPage extends StatelessWidget {
-  LoginPage({super.key});
-
-  final AuthStore store = AuthStore();
+  const LoginPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final store = context.read<AuthStore>();
+
     return Scaffold(
       body: Center(
         child: SingleChildScrollView(

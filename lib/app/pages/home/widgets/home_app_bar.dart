@@ -13,7 +13,7 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
       actions: [
         DSIconButton(
           icon: Icons.bar_chart,
-          tooltip: 'Estatísticas',
+          tooltip: 'Detalhes',
           onPressed: () => Navigator.pushNamed(context, AppRoutes.details),
         ),
       ],

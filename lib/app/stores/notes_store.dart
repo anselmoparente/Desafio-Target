@@ -18,6 +18,24 @@ abstract class NotesStoreBase with Store {
   @computed
   bool get canAddNote => newNoteText.trim().isNotEmpty;
 
+  @computed
+  int get totalNotes => notes.length;
+
+  @computed
+  int get totalEdits => notes.fold(0, (sum, note) => sum + note.editCount);
+
+  @computed
+  int get totalCharacters =>
+      notes.fold(0, (sum, note) => sum + note.value.length);
+
+  @computed
+  int get totalLetters =>
+      notes.fold(0, (sum, note) => sum + _countLetters(note.value));
+
+  @computed
+  int get totalNumbers =>
+      notes.fold(0, (sum, note) => sum + _countNumbers(note.value));
+
   @action
   void setNewNoteText(String value) => newNoteText = value;
 
@@ -41,4 +59,8 @@ abstract class NotesStoreBase with Store {
 
   @action
   void removeItem(NoteModel note) => notes.remove(note);
+
+  int _countLetters(String text) => RegExp(r'[a-zA-Z]').allMatches(text).length;
+
+  int _countNumbers(String text) => RegExp(r'\d').allMatches(text).length;
 }
