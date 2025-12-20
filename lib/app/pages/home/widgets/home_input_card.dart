@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:target/app/core/theme/app_spacing.dart';
 import 'package:target/app/core/widgets/ds_button.dart';
 import 'package:target/app/core/widgets/ds_card.dart';
+import 'package:target/app/core/widgets/ds_snack_bar.dart';
 import 'package:target/app/core/widgets/ds_text_field.dart';
 import 'package:target/app/stores/notes_store.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -56,6 +57,11 @@ class _HomeInputCardState extends State<HomeInputCard> {
                       store.addNote();
                       _controller.clear();
                       _focusNode.unfocus();
+                      DSSnackBar.show(
+                        context,
+                        message: 'Nota adicionada com sucesso!',
+                        type: FeedbackType.success,
+                      );
                     }
                   : null,
             ),

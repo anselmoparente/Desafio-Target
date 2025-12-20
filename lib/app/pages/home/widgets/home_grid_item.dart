@@ -6,6 +6,7 @@ import 'package:target/app/core/theme/app_typography.dart';
 import 'package:target/app/core/widgets/ds_button.dart';
 import 'package:target/app/core/widgets/ds_card.dart';
 import 'package:target/app/core/widgets/ds_icon_button.dart';
+import 'package:target/app/core/widgets/ds_snack_bar.dart';
 import 'package:target/app/core/widgets/ds_text_field.dart';
 import 'package:target/app/models/note_model.dart';
 import 'package:target/app/stores/notes_store.dart';
@@ -37,7 +38,15 @@ class HomeGridItem extends StatelessWidget {
               DSIconButton(
                 icon: Icons.delete,
                 tooltip: 'Excluir',
-                onPressed: () => store.removeItem(note),
+                onPressed: () {
+                  store.removeItem(note);
+
+                  DSSnackBar.show(
+                    context,
+                    message: 'Nota excluída com sucesso!',
+                    type: FeedbackType.warning,
+                  );
+                },
               ),
             ],
           ),
@@ -86,6 +95,11 @@ class HomeGridItem extends StatelessWidget {
                             ? () {
                                 store.updateNote(note, controller.text.trim());
                                 Navigator.pop(context);
+                                DSSnackBar.show(
+                                  context,
+                                  message: 'Nota atualizada com sucesso!',
+                                  type: FeedbackType.success,
+                                );
                               }
                             : null,
                       ),
